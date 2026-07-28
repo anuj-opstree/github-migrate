@@ -12,6 +12,15 @@ class ManagerService {
       where: {
         managerId,
         role: "EMPLOYEE",
+        isDeleted: false, // Only active employees
+      },
+    });
+
+    const totalGoals = await prisma.goal.count({
+      where: {
+        owner: {
+          managerId,
+        },
       },
     });
 
@@ -62,6 +71,7 @@ class ManagerService {
 
     return {
       totalEmployees,
+      totalGoals,
       pendingGoals,
       approvedGoals,
       completedGoals,
@@ -81,6 +91,7 @@ class ManagerService {
 
       where: {
         managerId,
+        isDeleted: false, // Only active team members
       },
 
       select: {
