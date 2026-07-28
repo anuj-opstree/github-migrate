@@ -72,26 +72,51 @@ npm run dev            # runs on http://localhost:5173
 
 ## Environment Variables
 
-Create `backend/.env` based on the table below:
+Create `backend/.env` using the template below and fill in your values:
 
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Server port (default: 5000) |
-| `DATABASE_URL` | SQLite path, e.g. `file:./dev.db` |
-| `JWT_SECRET` | Secret key for JWT signing |
-| `JWT_EXPIRES_IN` | Token expiry, e.g. `7d` |
-| `AWS_REGION` | AWS region for Bedrock |
-| `AWS_ACCESS_KEY_ID` | AWS access key |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret key |
-| `BEDROCK_MODEL_ID` | Bedrock inference profile ARN |
-| `SMTP_HOST` | SMTP server host |
-| `SMTP_PORT` | SMTP port (587) |
-| `SMTP_USER` | SMTP username/email |
-| `SMTP_PASS` | SMTP password / app password |
-| `JIRA_BASE_URL` | Jira workspace URL |
-| `JIRA_ADMIN_EMAIL` | Jira admin email |
-| `JIRA_API_TOKEN` | Jira API token |
-| `JIRA_PROJECT_KEY` | Jira project key |
+```env
+# ── Server ────────────────────────────────────────
+PORT=5000
+NODE_ENV=development
+
+# ── Database ──────────────────────────────────────
+# SQLite (default). For PostgreSQL use: postgresql://user:pass@localhost:5432/dbname
+DATABASE_URL="file:./dev.db"
+
+# ── Auth ──────────────────────────────────────────
+JWT_SECRET=your_strong_secret_key_here
+JWT_EXPIRES_IN=7d
+
+# ── AWS Bedrock (AI Reviews) ──────────────────────
+# IAM user must have: bedrock:InvokeModel permission
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_aws_access_key_id
+AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+# Model ID or full cross-region inference profile ARN
+# e.g. arn:aws:bedrock:us-east-1:<account_id>:application-inference-profile/<id>
+BEDROCK_MODEL_ID=your_bedrock_model_id_or_arn
+
+# ── SMTP Email (Nodemailer) ────────────────────────
+# Gmail: generate an App Password from Google Account > Security > App Passwords
+# App Password format: "xxxx xxxx xxxx xxxx" (16 chars with spaces)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_gmail_app_password
+SMTP_FROM="Performance Management System <your_email@gmail.com>"
+
+# ── Jira Integration ──────────────────────────────
+# Workspace URL — no trailing slash
+JIRA_BASE_URL=https://your-domain.atlassian.net
+# Admin account used for all Jira API calls (needs "Administer Jira" permission)
+JIRA_ADMIN_EMAIL=jira_admin@example.com
+# Generate at: Atlassian Account > Security > API tokens
+JIRA_API_TOKEN=your_jira_api_token
+# Jira project key where goals are created as Tasks
+JIRA_PROJECT_KEY=PMS
+```
+
+> **Never commit `.env` to version control.** It is already covered by `.gitignore`.
 
 ## Default Roles
 
